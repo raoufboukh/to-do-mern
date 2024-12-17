@@ -19,3 +19,18 @@ export const controllersGet = (req, res) => {
     res.send(data);
   });
 };
+
+
+export const controllersDelete = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const result = await todo.findByIdAndDelete(id);
+    if (result) {
+      res.status(200).send("Todo deleted");
+    } else {
+      res.status(404).send("Todo not found");
+    }
+  } catch (err) {
+    res.status(500).send(err);
+  }
+};

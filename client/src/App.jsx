@@ -1,5 +1,6 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
+import { RiDeleteBinLine } from "react-icons/ri";
 
 function App() {
   const [title, setTitle] = useState("");
@@ -9,6 +10,12 @@ function App() {
       setTodos(res.data);
     });
   }, [todos]);
+
+  const deleteTodo = (id) => {
+    axios.delete(`http://localhost:3000/${id}`).then((res) => {
+      console.log(res);
+    });
+  };
 
   const addTodo = () => {
     axios.post("http://localhost:3000/add", { title });
@@ -38,9 +45,13 @@ function App() {
             return (
               <p
                 key={todo._id}
-                className="border-2 border-black rounded my-2 p-2"
+                className="bg-black text-white rounded my-2 p-2 relative"
               >
                 {todo.title}
+                <RiDeleteBinLine
+                  className="absolute right-0 top-1/2 -translate-x-1/2 -translate-y-1/2 cursor-pointer"
+                  onClick={() => deleteTodo(todo._id)}
+                />
               </p>
             );
           })}
