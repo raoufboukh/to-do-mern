@@ -1,10 +1,12 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { RiDeleteBinLine } from "react-icons/ri";
+import { IoMdCheckmark } from "react-icons/io";
 
 function App() {
   const [title, setTitle] = useState("");
   const [todos, setTodos] = useState([]);
+  const [done, setDone] = useState(false);
   useEffect(() => {
     axios.get("http://localhost:3000/").then((res) => {
       setTodos(res.data);
@@ -45,9 +47,23 @@ function App() {
             return (
               <p
                 key={todo._id}
-                className="bg-black text-white rounded my-2 p-2 relative"
+                className="bg-black text-white rounded my-2 p-2 px-5 relative"
               >
-                {todo.title}
+                <span
+                  className="absolute left-1 w-3 h-3 bg-white rounded-full flex justify-center items-center top-1/2 -translate-y-1/2 cursor-pointer"
+                  onClick={() => setDone(!done)}
+                >
+                  <IoMdCheckmark
+                    className={`${done ? "block" : "hidden"} text-black`}
+                  />
+                </span>
+                <span
+                  className={`${
+                    done ? "after:w-full" : "after:w-0"
+                  } duration-300 transition-all after:left-0 relative after:absolute after:top-1/2 after:-translate-y-[20%] after:h-0.5 after:bg-slate-600`}
+                >
+                  {todo.title}
+                </span>
                 <RiDeleteBinLine
                   className="absolute right-0 top-1/2 -translate-x-1/2 -translate-y-1/2 cursor-pointer"
                   onClick={() => deleteTodo(todo._id)}
