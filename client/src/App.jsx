@@ -2,6 +2,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { RiDeleteBinLine } from "react-icons/ri";
 import { IoMdCheckmark } from "react-icons/io";
+import { SnackbarProvider, enqueueSnackbar } from "notistack";
 
 function App() {
   const [title, setTitle] = useState("");
@@ -14,12 +15,14 @@ function App() {
   }, [todos]);
 
   const deleteTodo = (id) => {
+    enqueueSnackbar("Todo deleted", { variant: "error" });
     axios.delete(`http://localhost:3000/${id}`).then((res) => {
       console.log(res);
     });
   };
 
   const addTodo = () => {
+    enqueueSnackbar("Todo added", { variant: "success" });
     axios.post("http://localhost:3000/add", { title });
     setTitle("");
   };
@@ -29,7 +32,7 @@ function App() {
   };
 
   return (
-    <>
+    <SnackbarProvider>
       <div className="w-96 mx-auto my-10">
         <h1 className="text-4xl text-center mb-10">Todo List</h1>
         <div className="flex">
@@ -80,7 +83,7 @@ function App() {
           })}
         </div>
       </div>
-    </>
+    </SnackbarProvider>
   );
 }
 
