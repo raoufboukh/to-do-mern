@@ -24,6 +24,10 @@ function App() {
     setTitle("");
   };
 
+  const updateTodo = (id) => {
+    axios.patch(`http://localhost:3000/${id}`, { done });
+  };
+
   return (
     <>
       <div className="w-96 mx-auto my-10">
@@ -51,16 +55,19 @@ function App() {
               >
                 <span
                   className="absolute left-1 w-3 h-3 bg-white rounded-full flex justify-center items-center top-1/2 -translate-y-1/2 cursor-pointer"
-                  onClick={() => setDone(!done)}
+                  onClick={() => {
+                    setDone(!done);
+                    updateTodo(todo._id);
+                  }}
                 >
                   <IoMdCheckmark
-                    className={`${done ? "block" : "hidden"} text-black`}
+                    className={`${todo.done ? "block" : "hidden"} text-black`}
                   />
                 </span>
                 <span
                   className={`${
-                    done ? "after:w-full" : "after:w-0"
-                  } duration-300 transition-all after:left-0 relative after:absolute after:top-1/2 after:-translate-y-[20%] after:h-0.5 after:bg-slate-600`}
+                    todo.done ? "after:w-full" : "after:w-0"
+                  } duration-300 transition-all after:left-0 relative after:absolute after:top-1/2 after:h-[2.5px] after:bg-slate-600`}
                 >
                   {todo.title}
                 </span>

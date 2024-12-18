@@ -34,3 +34,20 @@ export const controllersDelete = async (req, res) => {
     res.status(500).send(err);
   }
 };
+
+
+
+export const controllersUpdate = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { done } = req.body;
+    const result = await todo.findByIdAndUpdate(id, { done });
+    if (result) {
+      res.status(200).send("Todo updated");
+    } else {
+      res.status(404).send("Todo not found");
+    }
+  } catch (err) {
+    res.status(500).send(err);
+  }
+};
